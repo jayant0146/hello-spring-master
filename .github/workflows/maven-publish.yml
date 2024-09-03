@@ -13,44 +13,41 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-
+  building-zone:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
-
     steps:
     - name: Repository Checkout
       uses: actions/checkout@v4
-
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn clean package
 
+
+  testing-zone:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    needs: building_zone
+    steps:
     - name: Run Test Cases
-      run: mvn test
-    
-    - name: Upload Build Artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: build-artifacts
-        path: build/libs/
+      run: mvn clean test
 
+
+  uploading-artifacts-zone:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    needs: testing_zone
+    steps:
     - name: Checkout Artifacts branch
       run: |
         git config user.name "jayant0146"
         git config user.email "sahujayant046@gmail.com"
-        git checkout --orphan artefacts-store
-        git reset --hard
-        git commit --allow-empty -m "Initialize branch"
-        git push origin artefacts-store
-
-    - name: Add and Commit Artifacts
-      run: |
-        git checkout artefacts-store
-        cp -r $GITHUB_WORKSPACE/build/libs/* .
+        git checkout -b artefacts-store
         git add .
-        git commit -m "Upload artifacts"
+        git commit -m "Initialize branch"
         git push origin artefacts-store
-
-
