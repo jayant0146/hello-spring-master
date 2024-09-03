@@ -33,7 +33,7 @@ jobs:
     needs: building-zone
     steps:
     - name: Run Test Cases
-      run: mvn clean test -x
+      run: mvn clean test -X
 
 
   uploading-artifacts-zone:
