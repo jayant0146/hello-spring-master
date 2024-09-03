@@ -30,7 +30,7 @@ jobs:
     permissions:
       contents: read
       packages: write
-    needs: building_zone
+    needs: building-zone
     steps:
     - name: Run Test Cases
       run: mvn clean test
@@ -41,7 +41,7 @@ jobs:
     permissions:
       contents: read
       packages: write
-    needs: testing_zone
+    needs: testing-zone
     steps:
     - name: Checkout Artifacts branch
       run: |
