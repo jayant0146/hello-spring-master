@@ -30,8 +30,6 @@ jobs:
 
     - name: Build with Maven
       run: mvn clean install
-    - name: Run Test Cases
-      run: mvn clean test -X
 
 
     - name: uploading build artifacts
@@ -60,20 +58,3 @@ jobs:
           echo "No artifacts found to upload."
         fi
   
-
-  downloading-artifacts:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-    - name: Checkout Artifacts Branch
-      uses: actions/checkout@v4
-      with:
-        ref: artefacts-store
-
-    - name: Download Artifacts
-      uses: actions/download-artifact@v4
-      with:
-        name: my-artifact
-        path: target/*.jar
-    - name: Display structure of downloaded files
-      run: ls -R  
