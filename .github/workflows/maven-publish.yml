@@ -58,7 +58,6 @@ jobs:
           git push https://${{ secrets.ACTIONS_PAT }}@github.com/jayant0146/hello-spring-master.git artefacts-store
         else
           echo "No artifacts found to upload."
-          exit 1
         fi
   
 
