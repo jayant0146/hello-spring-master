@@ -46,9 +46,7 @@ jobs:
         git config user.name "jayant0146"
         git config user.email "sahujayant046@gmail.com"
         git checkout -b artefacts-store
-        git add .
-        git commit -m "Initialize branch"
-        git push https://${{ secrets.ACTIONS_PAT }}@github.com/jayant0146/hello-spring-master.git artefacts-store
+        git status
 
     - name: Add and Commit Artifacts
       run: |
@@ -61,6 +59,7 @@ jobs:
 
   downloading-artifacts:
     runs-on: ubuntu-latest
+    needs: build
     steps:
     - name: Checkout Artifacts Branch
       uses: actions/checkout@v4
