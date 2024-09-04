@@ -33,6 +33,14 @@ jobs:
     - name: Run Test Cases
       run: mvn clean test -X
 
+
+    - name: uploading build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: my-artifact
+        path: build/libs/
+
+
     - name: Checkout Artifacts branchgit
       run: |
         git config user.name "jayant0146"
@@ -40,4 +48,29 @@ jobs:
         git checkout -b artefacts-store
         git add .
         git commit -m "Initialize branch"
-        git push origin artefacts-store
+        git push https://${{ secrets.ACTIONS_PAT }}@github.com/jayant0146/hello-spring-master.git artefacts-store
+
+    - name: Add and Commit Artifacts
+      run: |
+        git checkout artefacts-store
+        cp -r $GITHUB_WORKSPACE/build/libs/* .
+        git add .
+        git commit -m "Upload artifacts"
+        git push https://${{ secrets.ACTIONS_PAT }}@github.com/jayant0146/hello-spring-master.git artefacts-store
+  
+
+  downloading-artifacts:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Artifacts Branch
+      uses: actions/checkout@v4
+      with:
+        ref: artefacts-store
+
+    - name: Download Artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: downloading-artifacts
+        path: build/libs/
+    - name: Display structure of downloaded files
+      run: ls -R  
