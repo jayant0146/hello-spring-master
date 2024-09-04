@@ -51,10 +51,15 @@ jobs:
     - name: Add and Commit Artifacts
       run: |
         git checkout artefacts-store
-        cp -r $GITHUB_WORKSPACE/build/libs/* .
-        git add .
-        git commit -m "Upload artifacts"
-        git push https://${{ secrets.ACTIONS_PAT }}@github.com/jayant0146/hello-spring-master.git artefacts-store
+        if [ -d "$GITHUB_WORKSPACE/build/libs/" ] && [ "$(ls -A $GITHUB_WORKSPACE/build/libs/)" ]; then
+          cp -r $GITHUB_WORKSPACE/build/libs/* .
+          git add .
+          git commit -m "Upload artifacts"
+          git push https://${{ secrets.ACTIONS_PAT }}@github.com/jayant0146/hello-spring-master.git artefacts-store
+        else
+          echo "No artifacts found to upload."
+          exit 1
+        fi
   
 
   downloading-artifacts:
