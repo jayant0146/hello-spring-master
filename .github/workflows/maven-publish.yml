@@ -53,7 +53,7 @@ jobs:
           cp -r $GITHUB_WORKSPACE/target/*.jar .
           git add .
           git commit -m "Upload artifacts"
-          git push https://${{ secrets.ACTIONS_PAT }}@github.com/jayant0146/hello-spring-master.git artefacts-store
+          git push origin artefacts-store
         else
           echo "No artifacts found to upload."
         fi
