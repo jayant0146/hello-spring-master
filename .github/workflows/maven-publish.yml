@@ -49,8 +49,8 @@ jobs:
     - name: Add and Commit Artifacts
       run: |
         git checkout artefacts-store
-        if [ -d "$GITHUB_WORKSPACE/build/libs/" ] && [ "$(ls -A $GITHUB_WORKSPACE/build/libs/)" ]; then
-          cp -r $GITHUB_WORKSPACE/build/libs/* .
+        if [ -d "$GITHUB_WORKSPACE/target/" ] && [ "$(ls -A $GITHUB_WORKSPACE/target/*.jar)" ]; then
+          cp -r $GITHUB_WORKSPACE/target/*.jar .
           git add .
           git commit -m "Upload artifacts"
           git push https://${{ secrets.ACTIONS_PAT }}@github.com/jayant0146/hello-spring-master.git artefacts-store
